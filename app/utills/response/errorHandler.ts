@@ -9,14 +9,6 @@ import {
 import { json } from '@remix-run/node'
 import { Response } from './response'
 
-/**
- *
- * @description Custom Errors
- * @returns custom response from error handler
- * @params error : Name of error
- * @params message :Message relate to the error
- */
-
 export type customErrorT = {
   error?: string
   message?: string
@@ -140,6 +132,7 @@ export const errorHandler = (err: any) => {
       )
     }
   }
+
   if (err instanceof PrismaClientValidationError) {
     return json(
       Response({
@@ -148,6 +141,7 @@ export const errorHandler = (err: any) => {
       { status: 422 }
     )
   }
+
   if (err instanceof PrismaClientInitializationError) {
     if (
       err.errorCode === 'P1001' ||
@@ -164,6 +158,7 @@ export const errorHandler = (err: any) => {
       )
     }
   }
+
   if (err instanceof PrismaClientUnknownRequestError) {
     return json(
       Response({
@@ -238,7 +233,6 @@ export const errorHandler = (err: any) => {
     )
   }
 
-  //Unknown Error
   if (err.name === 'Error') {
     return json(
       Response({ message: err?.message || 'Something went wrong !!' }),
@@ -247,6 +241,7 @@ export const errorHandler = (err: any) => {
       }
     )
   }
+
   if (err.name === 'TypeError') {
     return json(
       Response({ message: err?.message || 'Something went wrong !!' }),
