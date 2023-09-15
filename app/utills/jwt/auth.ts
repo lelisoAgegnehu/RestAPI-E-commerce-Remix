@@ -1,16 +1,5 @@
-/**
- * - This file is used to create Json Web Token for login.
- */
-
-// jwt
-
 import jwt from 'jsonwebtoken'
-
-// http-errors
-
 import createError from 'http-errors'
-
-// jwt export generator
 
 export const signAccessToken = (payload: any) => {
   return new Promise((resolve, reject) => {
