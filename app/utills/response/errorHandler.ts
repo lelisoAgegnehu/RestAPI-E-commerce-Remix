@@ -76,31 +76,6 @@ export class Unauthorized {
   }
 }
 
-export default class CustomErr {
-  constructor(
-    error: 'UNKNOWN_ROUTE' | 'CUSTOME' | 'VALIDATION',
-    message: string,
-    status: 200 | 201 | 400 | 401 | 403 | 422 | 500,
-    fieldError?: object,
-    field?: any
-  ) {
-    this.error = error
-    this.message = message
-    this.status = status
-    this.fieldError = fieldError
-    this.field = field
-  }
-  getAllErrors() {
-    return {
-      error: this.error,
-      message: this.message,
-      status: this.status,
-      fieldError: this.fieldError,
-      field: this.field,
-    }
-  }
-}
-
 export const errorHandler = (err: any) => {
   console.log({ err })
   if (err.status === 302) {
