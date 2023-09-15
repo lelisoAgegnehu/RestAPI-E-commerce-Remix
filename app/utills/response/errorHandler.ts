@@ -27,7 +27,7 @@ export type customErrorT = {
 
 export class NotFound {
   constructor(message?: string) {
-    this.message = message
+    this.message = message || 'Not Found'
   }
   error() {
     return {
@@ -38,7 +38,7 @@ export class NotFound {
 
 export class BadRequest {
   constructor(message?: string) {
-    this.message = message
+    this.message = message || 'BadRequest'
   }
   error() {
     return {
@@ -49,7 +49,7 @@ export class BadRequest {
 
 export class Forbidden {
   constructor(message?: string) {
-    this.message = message
+    this.message = message || 'Forbidden'
   }
   error() {
     return {
@@ -60,7 +60,7 @@ export class Forbidden {
 
 export class Unprocessable {
   constructor(message?: string, fieldError?: any, field?: any) {
-    this.message = message
+    this.message = message || 'Validation Error'
     this.fieldError = fieldError
     this.field = field
   }
@@ -75,7 +75,7 @@ export class Unprocessable {
 
 export class Unauthorized {
   constructor(message?: string) {
-    this.message = message
+    this.message = message || 'Unauthorized'
   }
   error() {
     return {
@@ -190,61 +190,41 @@ export const errorHandler = (err: any) => {
   if (err instanceof BadRequest) {
     const badRequest = new BadRequest(err)
     const message = badRequest.error().message
-    return json(
-      Response({
-        message: message || 'BadRequest',
-      }),
-      {
-        status: 400,
-      }
-    )
+    console.log(message)
+    return json(Response(message), {
+      status: 400,
+    })
   }
 
   if (err instanceof Forbidden) {
     const forbidden = new Forbidden(err)
     const message = forbidden.error().message
-    return json(
-      Response({
-        message: message || 'Forbidden',
-      }),
-      {
-        status: 403,
-      }
-    )
+    return json(Response(message), {
+      status: 403,
+    })
   }
 
   if (err instanceof Unauthorized) {
     const unauthorized = new Unauthorized(err)
     const message = unauthorized.error().message
-    return json(
-      Response({
-        message: message || 'Unauthorized',
-      }),
-      {
-        status: 401,
-      }
-    )
+    return json(Response(message), {
+      status: 401,
+    })
   }
 
   if (err instanceof NotFound) {
     const notFound = new NotFound(err)
     const message = notFound.error().message
-    return json(
-      Response({
-        message: message || 'Not Found',
-      }),
-      {
-        status: 404,
-      }
-    )
+    return json(Response(message), {
+      status: 404,
+    })
   }
 
   if (err instanceof Unprocessable) {
     const unprocessable = new Unprocessable(err)
     const { message, field, fieldError } = unprocessable.error()
     return json(
-      Response({
-        message: message || 'Validation Error',
+      Response(message, {
         error: {
           error: {
             fieldError,

@@ -1,6 +1,6 @@
 import type { User } from '@prisma/client'
 import { userServices } from './user.services'
-import CustomErr from '~/utills/response/errorHandler'
+import { BadRequest, Forbidden } from '~/utills/response/errorHandler'
 import bcrypt from 'bcryptjs'
 import { signAccessToken } from '~/utills/jwt/auth'
 
@@ -14,13 +14,13 @@ const verifyLogin = async (
   const user = await userServices.getByPhone(phone)
 
   if (!user) {
-    throw new CustomErr('CUSTOME', 'Phone is not registered !', 400)
+    throw new BadRequest('Phone is not registered !')
   }
 
   const isValid = await bcrypt.compare(password, user.password)
 
   if (!isValid) {
-    throw new CustomErr('CUSTOME', 'Invalid Password!', 400)
+    throw new BadRequest('Invalid Password!')
   }
 
   const { password: _password, ...userWithoutPassword } = user
@@ -32,7 +32,7 @@ const verifyLogin = async (
 const create = async (userData: User) => {
   const isPhone = await userServices.getByPhone(userData.phone)
   if (isPhone) {
-    throw new CustomErr('CUSTOME', 'Phone already registerd !', 403)
+    throw new Forbidden('Phone already registerd !')
   }
   return await userServices.create(userData)
 }
