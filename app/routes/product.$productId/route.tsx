@@ -1,5 +1,5 @@
 import { json, type ActionFunction } from '@remix-run/node'
-import CustomErr, { errorHandler } from '~/utills/response/errorHandler'
+import { BadRequest, errorHandler } from '~/utills/response/errorHandler'
 import { validate } from '~/utills/response/validate'
 import { getUserId } from '~/utills/session.server'
 import { productSchema } from '../product/productSchema'
@@ -20,7 +20,7 @@ export const action: ActionFunction = async ({ request, params }) => {
         })
       }
       default: {
-        throw new CustomErr('CUSTOME', 'unsupport method', 400)
+        throw new BadRequest('unsupport method')
       }
     }
   } catch (error) {

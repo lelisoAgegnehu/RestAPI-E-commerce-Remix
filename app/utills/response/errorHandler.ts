@@ -9,14 +9,6 @@ import {
 import { json } from '@remix-run/node'
 import { Response } from './response'
 
-export type customErrorT = {
-  error?: string
-  message?: string
-  status?: number
-  fieldError?: object
-  field?: any
-}
-
 export class NotFound {
   constructor(message?: string) {
     this.message = message || 'Not Found'
